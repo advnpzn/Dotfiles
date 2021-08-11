@@ -11,7 +11,7 @@
 # - Give it exec priviledge, or chmod +x /path/to/power.sh
 # - Run it
 
-chosen=$(echo -e "Logout\nShutdown\nReboot\nSuspend\nHibernate\nHybrid-sleep\nSuspend-then-hibernate" | rofi -theme ~/.config/rofi/theme.rasi -dmenu -i -p "PowerMenu: ") 
+chosen=$(echo -e "Logout\nShutdown\nReboot\nSuspend\nHibernate\nHybrid-sleep\nSuspend-then-hibernate" | rofi -font "Iosevka Nerd Font 10" -theme ~/.cache/wal/colors-rofi-dark.rasi -dmenu -i -p "PowerMenu: ") 
 # Info about some states are available here:
 # https://www.freedesktop.org/software/systemd/man/systemd-sleep.conf.html#Description
 
