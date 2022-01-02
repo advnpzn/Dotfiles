@@ -1,0 +1,333 @@
+# vim:fileencoding=utf-8:ft=dosini
+;==========================================================
+;
+;
+;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
+;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
+;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
+;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
+;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
+;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+;
+;
+;   To learn more about how to configure Polybar
+;   go to https://github.com/polybar/polybar
+;
+;   The README contains a lot of information
+;
+;==========================================================
+
+[colors]
+background = #a5232026
+foreground = #cbcedc   
+
+red     = #bf4e38
+blue    = #2e4d64
+yellow  = #f3e1ab
+green   = #aa9d77
+magenta = #ad8775
+cyan    = #2e4d64
+
+over = #5f6a70
+mine = #343434
+
+[bar/example]
+tray-position = right
+tray-background = ${colors.mine}
+width =  100%
+height = 20
+padding-left = 0
+padding-right = 1
+background = ${colors.background}
+foreground = ${colors.foreground}
+bottom = false
+border-top-size = 0
+border-bottom-size = 0
+border-top-color = ${colors.background}
+border-bottom-color = ${colors.background}
+
+line-size = 1
+wm-restack = i3
+separator = " "
+
+modules-left = i3
+modules-center =    
+modules-right = mem pulseaudio battery time 
+
+font-0 = Iosevka:style=Regular:pixelsize=11;4
+font-1 = JetBrainsMono Nerd Font:size=18;5
+font-2 = Material Design Icons:style=Bold:size=12;3
+font-3 = unifont:fontformat=truetype:size=13:antialias=true;
+
+[module/filesystem]
+type = internal/fs
+interval = 25
+mount-0 = /
+format-mounted = <label-mounted>
+format-mounted-background = ${colors.mine}
+format-mounted-foreground = ${colors.magenta}
+label-mounted =  "󰉋 %used%"
+
+format-unmounted = <label-unmounted>
+format-unmounted-prefix =
+label-unmounted = %mountpoint%: not mounted
+
+[module/pulseaudio]
+type = internal/pulseaudio
+sink = alsa_output.pci-0000_03_00.6.analog-stereo
+use-ui-max = false
+interval = 5
+
+format-volume = <label-volume>
+format-volume-foreground = ${colors.magenta}
+format-volume-background = ${colors.mine}
+format-volume-prefix = " 󰕾 "
+format-volume-prefix-background = ${colors.magenta}
+format-volume-prefix-foreground = ${colors.mine} 
+
+format-muted = <label-muted>
+format-muted-foreground = ${colors.magenta}
+format-muted-background = ${colors.mine}
+format-muted-prefix = " 󰝟 "
+format-muted-prefix-background = ${colors.magenta}
+format-muted-prefix-foreground = ${colors.mine} 
+
+label-volume = %percentage%%
+label-volume-padding = 1
+label-muted = "Muted"
+label-muted-padding = 1
+
+[module/rl]
+type = custom/text
+content = %{T3}%{T-}
+content-foreground = ${colors.mine}
+
+[module/rr]
+type = custom/text
+content = %{T3}%{T-}
+content-foreground = ${colors.mine}
+
+[module/temperature]
+type = internal/temperature
+thermal-zone = 0
+warn-temperature = 70
+
+format = <label>
+format-background = ${colors.mine}
+format-foreground = ${colors.blue}
+format-warn = <label-warn>
+format-padding = 0
+label = 󰜗 %temperature%
+label-warn = %temperature%
+label-padding-right = 1
+
+[module/i3]
+type = internal/i3
+
+pin-workspaces = true
+inline-mode = true
+enable-click = true
+enable-scroll = true
+reverse-scroll = false
+
+format = <label-state>
+
+;ws-icon-0 = Home;
+;ws-icon-1 = Web;
+;ws-icon-2 = Learn;
+;ws-icon-3 = Chat;
+;ws-icon-4 = Vm;
+;ws-icon-5 = Misc;
+
+label-separator = ""
+label-separator-background = ${colors.mine}
+
+label-focused = %index%
+label-focused-foreground = ${colors.mine}
+; label-focused-underline  = ${colors.blue}  
+label-focused-padding = 1
+label-focused-background = ${colors.magenta}
+
+label-unfocused = %index%  
+label-unfocused-foreground = ${colors.foreground}  
+; label-occupied-background = ${colors.mine}
+; label-occupied-overline = ${colors.over}
+label-unfocused-padding = 1
+
+label-visible = %index% 
+label-visible-foreground =   #3e3e3e
+label-visible-padding = 1
+; label-empty-background = ${colors.mine}
+
+label-urgent = %index%
+label-urgent-foreground = ${colors.magenta}
+; label-urgent-background = ${colors.mine}
+label-urgent-padding = 1
+
+[module/time]
+type = internal/date
+format = <label>
+format-prefix = " 󰖉 "
+format-prefix-background = ${colors.magenta}
+format-prefix-foreground = ${colors.mine}
+date = %I:%M %p | %a %d
+time-alt = %d/%m/%y | %a
+label = %date%%time%
+label-padding = 1
+label-background = ${colors.mine}
+label-foreground = ${colors.magenta}
+
+[module/mem]
+type = custom/script
+exec = free -m | sed -n 's/^Mem:\s\+[0-9]\+\s\+\([0-9]\+\)\s.\+/\1/p'
+format = <label>
+format-prefix = 󱁜
+format-prefix-padding = 1
+format-prefix-foreground = ${colors.mine}
+format-prefix-background = ${colors.magenta} 
+label = %output% MB
+label-padding = 1
+label-background = ${colors.mine}
+label-foreground = ${colors.magenta}
+
+[module/updates]
+type = custom/script
+exec = doas xbps-install -S > /dev/null 2>&1; xbps-updates
+format = <label>
+interval = 4600 
+label =  %output%  
+label-padding = 2
+label-foreground = #BF616A
+
+[module/wifi]
+type = custom/text 
+content =" " 
+content-padding = 1
+click-left = nm-connection-editor
+content-foreground = ${colors.mine}
+content-background = ${colors.red}
+
+[module/wlan]
+type = internal/network
+interface = wlp3s0
+interval = 3.0
+format-connected =  <label-connected>
+format-connected-padding = 1
+format-disconnected = "󰤣 "
+format-disconnected-background = ${colors.mine}
+format-disconnected-foreground = ${colors.green} 
+label-connected = "󰤧 " 
+format-connected-foreground = ${colors.green} 
+format-connected-background = ${colors.mine}
+
+[module/battery]
+type = internal/battery
+battery = BAT0
+adapter = AC0
+full-at = 98
+
+format-charging = <label-charging>
+label-charging = %percentage%%
+label-charging-padding = 1
+format-charging-prefix = 󰠠
+format-charging-prefix-padding = 1
+format-charging-prefix-background = ${colors.magenta}
+format-charging-prefix-foreground = ${colors.mine}
+label-charging-background = ${colors.mine}
+label-charging-foreground = ${colors.magenta}
+
+format-discharging = <label-discharging>
+label-discharging = " %percentage%% "
+format-discharging-prefix = " 󱊢 "
+format-discharging-prefix-background = ${colors.magenta}
+format-discharging-prefix-foreground = ${colors.mine}
+format-discharging-foreground = ${colors.magenta}
+format-discharging-background = ${colors.mine}
+
+format-full-prefix = "󱊣"
+format-full-background = ${colors.mine}
+format-full-padding = 1
+format-full-foreground = ${colors.magenta}
+format-background = ${colors.mine}  
+
+ramp-capacity-0 = "󰂎" 
+ramp-capacity-1 = "󰂎" 
+ramp-capacity-2 = "󱊡" 
+ramp-capacity-3 = "󱊢" 
+ramp-capacity-4 = "󱊣"
+
+[module/volume]
+type = custom/script
+exec = amixer get Master | awk '$0~/%/{print $4}' | tr -d '[]'
+format = <label>
+internal = 5.0
+label = %output% 
+label-foreground = #BF616A
+label-padding = 1
+
+[module/xbacklight]
+type = internal/xbacklight
+format = <label>
+format-background = ${colors.mine}
+label = "󰃠 %percentage%"
+format-foreground = ${colors.magenta}
+format-padding = 1
+
+[module/cpu]
+type = internal/cpu
+interval = 2.5
+
+format = <label> 
+
+label = 󰣖 %percentage%%
+
+format-background = ${colors.mine}
+format-foreground = #989cff
+
+[module/xwindow]
+type = internal/xwindow
+format = <label>
+format-prefix = 󰨑
+format-prefix-padding = 1
+format-prefix-background = ${colors.cyan}
+format-prefix-foreground = ${colors.mine}
+label = %title%
+label-maxlen = 25
+label-padding = 1
+label-empty = Ash @ Void
+label-empty-padding = 1
+label-empty-background = ${colors.mine}
+label-empty-foreground = ${colors.cyan}
+label-background = ${colors.mine}
+label-foreground = ${colors.cyan}
+
+[module/launcher]
+type = custom/text
+content = "󰔉"
+;content = "󰘳"
+content-foreground = ${colors.mine}
+content-background = ${colors.red}
+content-padding = 1
+click-left = rofi -theme ~/.config/rofi/bar.rasi -show drun
+click-right = maim -s | xclip -selection clipboard -t image/png
+
+[module/pic]
+type = custom/text
+content = " 󰘮  "
+content-foreground = ${colors.blue}
+content-background = ${colors.mine}
+content-padding = 0
+click-left = pkill dunst
+
+[module/sep]
+type = custom/text
+content = " "
+
+[module/win]
+type = custom/script
+exec = ~/.config/polybar/window.sh
+format = <label>
+interval = 1
+format-background = ${colors.mine}
+format-foreground = ${colors.cyan}
+label = %output%
